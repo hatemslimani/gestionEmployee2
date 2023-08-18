@@ -7,9 +7,9 @@ services:
       - "8082:8080"
       - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - app_data:/usr/local/tomcat/webapps
+      - mysql2_data:/var/lib/mysql
+      - app2_data:/usr/local/tomcat/webapps
 
 volumes:
-  mysql_data:
-  app_data:
+  mysql2_data:
+  app2_data:
