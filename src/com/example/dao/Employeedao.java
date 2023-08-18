@@ -9,7 +9,7 @@ import com.example.employees.Employee;
 
 public class Employeedao {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://combined_container:3307/gestEmployee";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/gestEmployee";
 	static final String USER = "root";
 	static final String PASS = "hatem";
 	public Employee getEmployee(long id) throws Exception {
