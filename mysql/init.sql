@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS gestEmployee;
+USE gestEmployee;
+
+CREATE TABLE IF NOT EXISTS Employee (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    birthDate VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL,
+    department VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
