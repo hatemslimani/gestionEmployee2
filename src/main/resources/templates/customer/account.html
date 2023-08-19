@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Account Details</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Success message -->
+                <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> Your account information has been successfully updated!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
+                <div class="card shadow border-0">
+                    <div class="card-header bg-info text-white py-3">
+                        <h2 class="text-center mb-0">
+                            <i class="bi bi-person-circle me-2"></i> Your Profile
+                        </h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <div class="avatar-placeholder bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-3"
+                                 style="width: 100px; height: 100px;">
+                                <i class="bi bi-person-fill fs-1 text-info"></i>
+                            </div>
+                            <h3 th:text="${user.name + ' ' + user.lastName}" class="mb-1">John Doe</h3>
+                            <p class="text-muted">Customer</p>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">
+                                <i class="bi bi-envelope me-2"></i> Email Address
+                            </div>
+                            <div class="col-sm-8 fw-bold" th:text="${user.username}">
+                                user@example.com
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">
+                                <i class="bi bi-person me-2"></i> First Name
+                            </div>
+                            <div class="col-sm-8" th:text="${user.name}">
+                                John
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-4 text-muted">
+                                <i class="bi bi-person me-2"></i> Last Name
+                            </div>
+                            <div class="col-sm-8" th:text="${user.lastName}">
+                                Doe
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                            <a th:href="@{/customer/account/edit}" class="btn btn-info text-white">
+                                <i class="bi bi-pencil-square me-2"></i> Edit Profile
+                            </a>
+                            <a th:href="@{/customer/dashboard}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Add Hotel</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="text-center">Add New Hotel</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{/manager/hotels/add}" th:object="${hotel}">
+                            <div class="row">
+                                <!-- Hotel Details Section -->
+                                <div class="col-md-12 mb-3">
+                                    <h4>Hotel Details</h4>
+                                    <hr>
+                                </div>
+                                
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label" for="name">Hotel Name:</label>
+                                    <input class="form-control" id="name" type="text" th:field="*{name}"
+                                           placeholder="Enter hotel name">
+                                    <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                                </div>
+                                
+                                <!-- Address Section -->
+                                <div class="col-md-12 mb-3">
+                                    <h4>Address Information</h4>
+                                    <hr>
+                                </div>
+                                
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label" for="addressLine">Address Line:</label>
+                                    <input class="form-control" id="addressLine" type="text"
+                                           th:field="*{addressDTO.addressLine}"
+                                           placeholder="Enter address line">
+                                    <p class="text-danger" th:if="${#fields.hasErrors('addressDTO.addressLine')}"
+                                       th:errors="*{addressDTO.addressLine}"></p>
+                                </div>
+                                
+                                <!-- Continue with city, zip, etc. fields -->
+                                
+                                <!-- Room Information Section -->
+                                <div class="col-md-12 mb-3">
+                                    <h4>Room Information</h4>
+                                    <hr>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-light">
+                                            <h5>Single Rooms</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <input type="hidden" th:field="*{roomDTOs[0].roomType}">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="singleRoomCount">Number of Single Rooms:</label>
+                                                <input class="form-control" id="singleRoomCount" type="number"
+                                                       th:field="*{roomDTOs[0].roomCount}" min="0"
+                                                       placeholder="How many single rooms?">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('roomDTOs[0].roomCount')}"
+                                                   th:errors="*{roomDTOs[0].roomCount}"></p>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="singleRoomPrice">Price per Night ($):</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">$</span>
+                                                    <input class="form-control" id="singleRoomPrice" type="number" step="0.01" min="0"
+                                                           th:field="*{roomDTOs[0].pricePerNight}"
+                                                           placeholder="Enter price for single rooms">
+                                                </div>
+                                                <p class="text-danger" th:if="${#fields.hasErrors('roomDTOs[0].pricePerNight')}"
+                                                   th:errors="*{roomDTOs[0].pricePerNight}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Double Room Count -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header bg-light">
+                                            <h5>Double Rooms</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <input type="hidden" th:field="*{roomDTOs[1].roomType}">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="doubleRoomCount">Number of Double Rooms:</label>
+                                                <input class="form-control" id="doubleRoomCount" type="number"
+                                                       th:field="*{roomDTOs[1].roomCount}" min="0"
+                                                       placeholder="How many double rooms?">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('roomDTOs[1].roomCount')}"
+                                                   th:errors="*{roomDTOs[1].roomCount}"></p>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label" for="doubleRoomPrice">Price per Night ($):</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">$</span>
+                                                    <input class="form-control" id="doubleRoomPrice" type="number" step="0.01" min="0"
+                                                           th:field="*{roomDTOs[1].pricePerNight}"
+                                                           placeholder="Enter price for double rooms">
+                                                </div>
+                                                <p class="text-danger" th:if="${#fields.hasErrors('roomDTOs[1].pricePerNight')}"
+                                                   th:errors="*{roomDTOs[1].pricePerNight}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <button type="submit" class="btn btn-primary">Add Hotel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

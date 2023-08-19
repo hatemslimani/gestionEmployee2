@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Search Hotels - Tuni Booking</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="position-relative mb-5">
+                    <img class="img-fluid rounded-3 w-100" style="height: 300px; object-fit: cover;" 
+                         src="/img/map-banner.jpg" alt="Map Banner">
+                    <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                        <h1 class="display-4 fw-bold mb-3">Find Your Perfect Stay</h1>
+                        <p class="lead mb-0">Discover amazing hotels at great prices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card fade-in shadow-sm">
+                    <div class="card-body p-4">
+                        <div th:if="${errorMessage}" class="alert alert-danger fade-in" th:text="${errorMessage}"></div>
+                        <form method="post" th:action="@{/search}" th:object="${hotelSearchDTO}" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label class="form-label" for="city">Destination</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-geo-alt"></i>
+                                    </span>
+                                    <input class="form-control border-start-0 ps-0" id="city" type="text" 
+                                           th:field="*{city}" placeholder="Enter city name" required autofocus>
+                                </div>
+                                <p class="text-danger mt-1" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label" for="checkinDate">Check-in Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-calendar-check"></i>
+                                        </span>
+                                        <input class="form-control border-start-0 ps-0" id="checkinDate" type="text" 
+                                               th:field="*{checkinDate}" placeholder="Select date" required>
+                                    </div>
+                                    <p class="text-danger mt-1" th:if="${#fields.hasErrors('checkinDate')}" th:errors="*{checkinDate}"></p>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label" for="checkoutDate">Check-out Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-calendar-x"></i>
+                                        </span>
+                                        <input class="form-control border-start-0 ps-0" id="checkoutDate" type="text" 
+                                               th:field="*{checkoutDate}" placeholder="Select date" required>
+                                    </div>
+                                    <p class="text-danger mt-1" th:if="${#fields.hasErrors('checkoutDate')}" th:errors="*{checkoutDate}"></p>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-search me-2"></i>Search Hotels
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="additional-scripts">
+    <script>
+        $(document).ready(function () {
+            const displayFormat = "dd.mm.yy";
+            const submitFormat = "yy-mm-dd"; // Format that Spring Boot expects for LocalDate
+
+            // Block invalid characters for city input
+            $("#city").on("input", function () {
+                var value = $(this).val();
+                var filteredValue = value.replace(/[^A-Za-z\s'-]/g, "");
+                $(this).val(filteredValue);
+            });
+
+            // Initialize checkinDate
+            $("#checkinDate").datepicker({
+                dateFormat: displayFormat,
+                minDate: 0,
+                onClose: function (selectedDate) {
+                    if (selectedDate) {
+                        var checkoutMinDate = $.datepicker.parseDate(displayFormat, selectedDate);
+                        checkoutMinDate.setDate(checkoutMinDate.getDate() + 1); // Minimum 1 day after check-in
+                        $("#checkoutDate").datepicker("option", "minDate", checkoutMinDate);
+                    }
+                }
+            }).attr('readonly', 'readonly');
+
+            // Initialize checkoutDate
+            $("#checkoutDate").datepicker({
+                dateFormat: displayFormat,
+                minDate: +1
+            }).attr('readonly', 'readonly');
+
+            // Reformat dates on form submit
+            $("form").on("submit", function () {
+                var checkinDate = $('#checkinDate').datepicker('getDate');
+                var checkoutDate = $('#checkoutDate').datepicker('getDate');
+                $('#checkinDate').val($.datepicker.formatDate(submitFormat, checkinDate));
+                $('#checkoutDate').val($.datepicker.formatDate(submitFormat, checkoutDate));
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

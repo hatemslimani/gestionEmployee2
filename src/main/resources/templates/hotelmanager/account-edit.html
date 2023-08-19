@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Edit Profile</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow border-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h2 class="text-center mb-0">
+                            <i class="bi bi-pencil-square me-2"></i> Edit Your Profile
+                        </h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" th:action="@{/manager/account/edit}" th:object="${user}">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" for="username">
+                                    <i class="bi bi-envelope me-2"></i> Email Address
+                                </label>
+                                <input class="form-control form-control-lg" id="username" type="email" th:field="*{username}"
+                                       placeholder="Enter your email address">
+                                <div class="form-text">We'll use this email for account-related communications</div>
+                                <p class="text-danger mt-1" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold" for="name">
+                                        <i class="bi bi-person me-2"></i> First Name
+                                    </label>
+                                    <input class="form-control form-control-lg" id="name" type="text" th:field="*{name}"
+                                           placeholder="Enter your first name">
+                                    <p class="text-danger mt-1" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold" for="lastName">
+                                        <i class="bi bi-person me-2"></i> Last Name
+                                    </label>
+                                    <input class="form-control form-control-lg" id="lastName" type="text" th:field="*{lastName}"
+                                           placeholder="Enter your last name">
+                                    <p class="text-danger mt-1" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                                </div>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a th:href="@{/manager/account}" class="btn btn-outline-secondary btn-lg">
+                                    <i class="bi bi-x-circle me-2"></i> Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-check-circle me-2"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        .dashboard-card {
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-body {
+            padding: 2rem;
+        }
+        .dashboard-icon {
+            font-size: 3rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .stats-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0d6efd;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container py-5">
+        <h2 class="mb-4">Admin Dashboard</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people-fill dashboard-icon"></i>
+                        <h5 class="card-title">Users Management</h5>
+                        <div class="stats-number" th:text="${userCount ?: '0'}">0</div>
+                        <p class="text-muted mb-4">Total Registered Users</p>
+                        <a th:href="@{/admin/users}" class="btn btn-primary w-100">Manage Users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-building dashboard-icon"></i>
+                        <h5 class="card-title">Hotels Management</h5>
+                        <div class="stats-number" th:text="${hotelCount ?: '0'}">0</div>
+                        <p class="text-muted mb-4">Total Hotels Listed</p>
+                        <a th:href="@{/admin/hotels}" class="btn btn-primary w-100">Manage Hotels</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-bookmark-check dashboard-icon"></i>
+                        <h5 class="card-title">Bookings Management</h5>
+                        <div class="stats-number" th:text="${bookingCount ?: '0'}">0</div>
+                        <p class="text-muted mb-4">Total Active Bookings</p>
+                        <a th:href="@{/admin/bookings}" class="btn btn-primary w-100">Manage Bookings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

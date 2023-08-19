@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Booking Confirmation - Tuni Booking</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Success Message -->
+                <div class="alert alert-success fade-in mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill fs-4 me-3"></i>
+                        <div>
+                            <h4 class="alert-heading mb-1">Booking Confirmed!</h4>
+                            <p class="mb-0">Thank you for choosing Tuni Booking. Your booking has been successfully processed.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Confirmation Card -->
+                <div class="card fade-in mb-4">
+                    <div class="card-body p-4">
+                        <!-- Confirmation Number -->
+                        <div class="text-center mb-4">
+                            <h6 class="text-muted mb-1">Confirmation Number</h6>
+                            <h3 class="text-primary mb-0" th:text="${bookingDTO.confirmationNumber}"></h3>
+                        </div>
+
+                        <!-- Hotel Info -->
+                        <div class="mb-4">
+                            <h4 class="mb-2" th:text="${bookingDTO.hotelName}">Hotel</h4>
+                            <p class="text-muted mb-0" th:text="${bookingDTO.hotelAddress.addressLine + ', ' + bookingDTO.hotelAddress.city + ', ' + bookingDTO.hotelAddress.country}"></p>
+                        </div>
+
+                        <!-- Dates -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <i class="bi bi-calendar-check text-primary mb-2"></i>
+                                    <h6 class="mb-1">Check-in</h6>
+                                    <p class="mb-0 fw-bold" th:text="${bookingDTO.checkinDate}"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <i class="bi bi-calendar-x text-primary mb-2"></i>
+                                    <h6 class="mb-1">Check-out</h6>
+                                    <p class="mb-0 fw-bold" th:text="${bookingDTO.checkoutDate}"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <i class="bi bi-moon-stars text-primary mb-2"></i>
+                                    <h6 class="mb-1">Duration</h6>
+                                    <p class="mb-0 fw-bold" th:text="${days} + ' night(s)'"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rooms -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Selected Rooms</h5>
+                            <div class="row g-3">
+                                <div th:each="room : ${bookingDTO.roomSelections}" class="col-md-6">
+                                    <div class="p-3 bg-light rounded">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="bi bi-door-open text-primary me-2"></i>
+                                                <span th:text="${room.count}"></span> x <span th:text="${room.roomType}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price & Payment -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="mb-0">Total Price</h5>
+                                <h4 class="text-primary mb-0" th:text="'$ ' + ${#numbers.formatDecimal(bookingDTO.totalPrice, 1, 'COMMA', 2, 'POINT')}"></h4>
+                            </div>
+                            <p class="text-muted small mb-0">
+                                <i class="bi bi-credit-card me-2"></i>
+                                Payment Method: <span th:text="${bookingDTO.paymentMethod}"></span>
+                            </p>
+                        </div>
+
+                        <!-- Guest Info -->
+                        <div class="p-3 bg-light rounded">
+                            <h5 class="mb-3">Guest Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person text-primary me-2"></i>
+                                        <span th:text="${bookingDTO.customerName}"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-envelope text-primary me-2"></i>
+                                        <span th:text="${bookingDTO.customerEmail}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/" class="btn btn-outline-primary">
+                        <i class="bi bi-house me-2"></i>Back to Home
+                    </a>
+                    <a href="/customer/bookings" class="btn btn-primary">
+                        <i class="bi bi-calendar-check me-2"></i>My Bookings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Payment - Tuni Booking</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <!-- Progress Steps -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="d-flex justify-content-center">
+                    <div class="progress-steps">
+                        <div class="step active">
+                            <div class="step-icon">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+                            <div class="step-label">Selection</div>
+                        </div>
+                        <div class="step-line active"></div>
+                        <div class="step active">
+                            <div class="step-icon">
+                                <i class="bi bi-2-circle-fill"></i>
+                            </div>
+                            <div class="step-label">Payment</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Booking Summary -->
+            <div class="col-md-4 mb-4">
+                <div class="card fade-in h-100">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-4">Booking Summary</h5>
+                        
+                        <!-- Hotel Info -->
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">Hotel</h6>
+                            <p class="mb-1 fw-bold" th:text="${hotelDTO.name}">Hotel Name</p>
+                            <p class="mb-1 small text-muted" th:text="${hotelDTO.addressDTO.getAddressLine()}">Address Line</p>
+                            <p class="mb-0 small text-muted" th:text="${hotelDTO.addressDTO.city + ', ' + hotelDTO.addressDTO.country}">City, Country</p>
+                        </div>
+
+                        <!-- Dates -->
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">Dates</h6>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Check-in</span>
+                                <span class="fw-bold" th:text="${bookingInitiationDTO.checkinDate}"></span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Check-out</span>
+                                <span class="fw-bold" th:text="${bookingInitiationDTO.checkoutDate}"></span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Duration</span>
+                                <span class="fw-bold" th:text="${bookingInitiationDTO.durationDays + ' nights'}">0 nights</span>
+                            </div>
+                        </div>
+
+                        <!-- Rooms -->
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">Selected Rooms</h6>
+                            <div th:each="roomSelection : ${bookingInitiationDTO.roomSelections}"
+                                 th:if="${roomSelection.count > 0}"
+                                 class="d-flex justify-content-between mb-2">
+                                <span th:text="${roomSelection.count + ' x ' + roomSelection.roomType}">0 x Room</span>
+                                <span class="fw-bold" th:text="'$' + ${#numbers.formatDecimal(roomSelection.pricePerNight * bookingInitiationDTO.durationDays, 0, 'COMMA', 2, 'POINT')}">$0.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Total -->
+                        <div class="pt-3 border-top">
+                            <div class="d-flex justify-content-between">
+                                <span class="h5 mb-0">Total</span>
+                                <span class="h5 mb-0 text-primary" th:utext="'$ ' + ${#numbers.formatDecimal(bookingInitiationDTO.totalPrice, 0, 'COMMA', 2, 'POINT')}">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="col-md-8">
+                <div class="card fade-in">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-4">Payment Details</h5>
+                        <form action="/booking/payment" method="post" th:object="${paymentCardDTO}" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label class="form-label" for="cardholderName">Cardholder Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input class="form-control border-start-0 ps-0" id="cardholderName" type="text" 
+                                           th:field="*{cardholderName}" placeholder="Enter cardholder name" required>
+                                </div>
+                                <p class="text-danger mt-1" th:if="${#fields.hasErrors('cardholderName')}" th:errors="*{cardholderName}"></p>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label" for="cardNumber">Card Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-credit-card"></i>
+                                    </span>
+                                    <input class="form-control border-start-0 ps-0" id="cardNumber" type="text" 
+                                           th:field="*{cardNumber}" placeholder="1234 5678 9012 3456" required>
+                                </div>
+                                <p class="text-danger mt-1" th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}"></p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label" for="expirationDate">Expiration Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-calendar"></i>
+                                        </span>
+                                        <input class="form-control border-start-0 ps-0" id="expirationDate" type="text" 
+                                               th:field="*{expirationDate}" placeholder="MM/YY" required>
+                                    </div>
+                                    <p class="text-danger mt-1" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></p>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label" for="cvc">CVC</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-shield-lock"></i>
+                                        </span>
+                                        <input class="form-control border-start-0 ps-0" id="cvc" type="text" 
+                                               th:field="*{cvc}" placeholder="123" required>
+                                    </div>
+                                    <p class="text-danger mt-1" th:if="${#fields.hasErrors('cvc')}" th:errors="*{cvc}"></p>
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-lock-fill me-2"></i>Complete Payment
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="additional-scripts">
+    <style>
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .step.active .step-icon {
+            background-color: var(--primary-color);
+        }
+        .step:not(.active) .step-icon {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+        }
+        .step-line {
+            width: 100px;
+            height: 2px;
+            background-color: var(--light-gray);
+        }
+        .step-line.active {
+            background-color: var(--primary-color);
+        }
+        .step-label {
+            font-size: 0.875rem;
+            color: var(--text-color);
+        }
+    </style>
+    <script>
+        document.getElementById('cardholderName').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); // Allow only letters and spaces
+        });
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 16); // Allow only numbers, limit to 16 digits
+        });
+        document.getElementById('cvc').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 3); // Allow only numbers, limit to 3 digits
+        });
+        document.getElementById('expirationDate').addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, ''); // Allow only numbers
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4); // Insert '/' after the first 2 digits
+            }
+            this.value = value.slice(0, 5); // Limit to 5 characters, including the '/'
+        });
+    </script>
+</th:block>
+</body>
+</html>

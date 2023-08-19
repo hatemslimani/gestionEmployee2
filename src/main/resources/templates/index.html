@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/layout-main}">
+<head>
+    <title>Welcome to Tuni Booking</title>
+    <style>
+        .hero-section {
+            position: relative;
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/tunisia booking.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            color: white;
+            margin-top: -1.5rem;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 2rem;
+        }
+        .search-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="display-4 fw-bold mb-4">Find Your Perfect Stay</h1>
+            <p class="lead mb-4">Discover amazing hotels at great prices across Tunisia</p>
+            <div class="search-box">
+                <form action="/search" method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Destination</label>
+                            <input type="text" class="form-control" name="city" placeholder="Where are you going?">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Check-in</label>
+                            <input type="date" class="form-control" name="checkinDate">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Check-out</label>
+                            <input type="date" class="form-control" name="checkoutDate">
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Why Choose Tuni Booking?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <i class="bi bi-shield-check fs-1 text-primary mb-3"></i>
+                        <h3>Secure Booking</h3>
+                        <p>Your security is our priority. Book with confidence using our secure payment system.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <i class="bi bi-currency-dollar fs-1 text-primary mb-3"></i>
+                        <h3>Best Price Guarantee</h3>
+                        <p>Find the best deals on hotels across Tunisia. Price match guarantee available.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center p-4">
+                        <i class="bi bi-headset fs-1 text-primary mb-3"></i>
+                        <h3>24/7 Support</h3>
+                        <p>Our dedicated support team is always here to help you with your booking needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">Ready to Start Your Journey?</h2>
+            <p class="lead mb-4">Join thousands of satisfied travelers who have found their perfect stay with Tuni Booking</p>
+            <a href="/register/customer" class="btn btn-light btn-lg">
+                <i class="bi bi-person-plus me-2"></i>Create Account
+            </a>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>
